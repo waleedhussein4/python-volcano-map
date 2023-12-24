@@ -3,7 +3,8 @@ import pandas
 
 map = folium.Map(location=[33.888098263578, 35.49224025579559], zoom_start=2)
 
-fg = folium.FeatureGroup(name="FG1")
+fg_markers = folium.FeatureGroup(name="Volcanoes")
+fg_population = folium.FeatureGroup(name="Population")
 
 data = pandas.read_csv('./Volcanoes.txt')
 data_lat = data['LAT']
@@ -25,10 +26,12 @@ def marker_elevation_color(elev):
   return 'red'
 
 for lat,lon,elev,name in zip(data_lat,data_lon,data_elev,data_name):
-  fg.add_child(folium.CircleMarker(radius=6,location=[lat,lon], popup=folium.Popup(folium.IFrame(html=html % (name,name,str(elev)),width=200,height=200)), opacity=0.9, fill_opacity=0.8, weight=1, color='black', fill_color=marker_elevation_color(elev)))
+  fg_markers.add_child(folium.CircleMarker(radius=6,location=[lat,lon], popup=folium.Popup(folium.IFrame(html=html % (name,name,str(elev)),width=200,height=200)), opacity=0.9, fill_opacity=0.8, weight=1, color='black', fill_color=marker_elevation_color(elev)))
 
-fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x : {'fillColor':'green' if x['properties']['POP2005']<10000000 else 'orange' if x['properties']['POP2005']<20000000 else 'red'}))
+fg_population.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x : {'fillColor':'green' if x['properties']['POP2005']<10000000 else 'orange' if x['properties']['POP2005']<20000000 else 'red'}))
 
-map.add_child(fg)
+map.add_child(fg_markers)
+map.add_child(fg_population)
+map.add_child(folium.LayerControl())
 map.save("Map1.html")
 

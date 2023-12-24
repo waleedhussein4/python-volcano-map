@@ -27,7 +27,7 @@ def marker_elevation_color(elev):
 for lat,lon,elev,name in zip(data_lat,data_lon,data_elev,data_name):
   fg.add_child(folium.CircleMarker(radius=6,location=[lat,lon], popup=folium.Popup(folium.IFrame(html=html % (name,name,str(elev)),width=200,height=200)), opacity=0.9, fill_opacity=0.8, weight=1, color='black', fill_color=marker_elevation_color(elev)))
 
-fg.add_child(folium.GeoJson(data=(open('world.json', 'r', encoding='utf-8-sig').read())))
+fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x : {'fillColor':'green' if x['properties']['POP2005']<10000000 else 'orange' if x['properties']['POP2005']<20000000 else 'red'}))
 
 map.add_child(fg)
 map.save("Map1.html")

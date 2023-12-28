@@ -30,8 +30,8 @@ for lat,lon,elev,name in zip(data_lat,data_lon,data_elev,data_name):
 
 fg_population.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x : {'fillColor':'green' if x['properties']['POP2005']<10000000 else 'orange' if x['properties']['POP2005']<20000000 else 'red'}))
 
-map.add_child(fg_markers)
 map.add_child(fg_population)
+map.add_child(fg_markers)
 map.add_child(folium.LayerControl())
 map.save("index.html")
 

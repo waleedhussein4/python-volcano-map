@@ -33,5 +33,5 @@ fg_population.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='ut
 map.add_child(fg_markers)
 map.add_child(fg_population)
 map.add_child(folium.LayerControl())
-map.save("Map1.html")
+map.save("index.html")
 
